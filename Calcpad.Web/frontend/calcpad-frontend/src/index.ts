@@ -13,6 +13,7 @@ export type {
     HighlightToken,
     DefinitionsRequest,
     DefinitionsResponse,
+    PersistedUiOverrides,
     MacroDefinition,
     FunctionDefinition,
     VariableDefinition,
@@ -75,6 +76,12 @@ export {
     htmlHasDatagrids,
     getUiEventScript,
 } from './services/ui-preview';
+
+// --- UI Overrides Persistence ------------------------------------------------
+export {
+    serializeUiOverrides,
+    updateUiOverridesInContent,
+} from './services/ui-overrides';
 
 // --- Base64 Truncation -------------------------------------------------------
 export { truncateBase64Content } from './services/base64-truncate';

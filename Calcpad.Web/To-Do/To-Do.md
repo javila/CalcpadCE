@@ -9,6 +9,7 @@
 
 ### Enhancements
 - Finish enhanced PDF generation
+- Add docstrings for built-in functions.
 - Could we have a Vue panel that activates when the cursor is inside a JSON HTML comment? Where you can edit properties and then the line gets updated based on what you put into the UI? This could also work for editing #UI properties
 - Add the ability to focus the preview to the line selected in the code. Add a toggle to automatically sync this in the Vue panel.
 - Switch Vue tabs from text to icons now that they are getting longer.
@@ -28,6 +29,8 @@
 - Add button that auto-downloads the .NET runtime into the extension folder with slim build options if the user doesn't want to install the .NET runtimes locally
 - Make sure long API calls are awaited and do not freeze the UI
 - Check if the cache needs cleared on intervals
+- Have variables use the tokenizer for recognition when you highlight text when clicking, commas are not handled properly currently.
+- UI state persists across code changes where possible.
 
 
 ## Calcpad.Web
@@ -75,10 +78,10 @@
 	'if (window.dxfDrawing) { window.dxfDrawing.drawLine('x1$', 'y1$', 'x2$', 'y2$'); }
 	'</script>
 #end def
+- Fix tokenization of custom units
 
 ## Calcpad.Core
 
-- Add features in JSUpdates.md
 - Add keyword arguments for builtin functions
 - Add Unit safety for angles by having arc functions return the unit based on the default setting (instead of a number with no unit)
 - Add a way to throw custom errors in command block expressions
@@ -95,6 +98,7 @@ f(0)
 - Make keyword arguments in functions and macros. If a keyword argument is used, have the linter check the macro against the default values for type mismatch errors.
 - Add string$() function argument that gives the return mode for the expression in the string. It should allow with or without units
 - Add typeOf$() function that returns the type of an expression as a string
+- Add #HTML and #CPD keywords to switch if ' is needed before HTML. With string$ function, it is not needed to pass Calcpad code to HTML, so this greatly simplifies the architecture.
 
 ## Calcpad Modules
 

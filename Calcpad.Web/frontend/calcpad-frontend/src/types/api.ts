@@ -185,11 +185,17 @@ export interface DefinitionsRequest {
     sourceFilePath?: string;
 }
 
+export interface PersistedUiOverrides {
+    overrides: Record<string, string>;
+    commentLine: number;  // 0-based line number of the HTML comment block
+}
+
 export interface DefinitionsResponse {
     macros: MacroDefinition[];
     functions: FunctionDefinition[];
     variables: VariableDefinition[];
     customUnits: CustomUnitDefinition[];
+    uiOverrides?: PersistedUiOverrides;
 }
 
 export interface MacroDefinition {

@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
-import { CalcpadApiClient, buildClientFileCacheFromContent, DEFAULT_PDF_SETTINGS, getDatagridCdnTags, htmlHasDatagrids, getUiEventScript } from 'calcpad-frontend';
+import { CalcpadApiClient, buildClientFileCacheFromContent, DEFAULT_PDF_SETTINGS, getDatagridCdnTags, htmlHasDatagrids, getUiEventScript, updateUiOverridesInContent } from 'calcpad-frontend';
 import type { PdfSettings as FrontendPdfSettings } from 'calcpad-frontend';
 import { CalcpadServerLinter } from './calcpadServerLinter';
 import { CalcpadSemanticTokensProvider, semanticTokensLegend } from './calcpadSemanticTokensProvider';
@@ -27,6 +27,7 @@ import { UiInputModel } from './uiInputModel';
 let activePreviewPanel: vscode.WebviewPanel | unknown = undefined;
 let activePreviewType: 'regular' | 'unwrapped' | 'ui' | undefined = undefined;
 let uiInputModel: UiInputModel | null = null;
+let uiOverridesCommentLine: number | undefined = undefined;
 let previewUpdateTimeout: NodeJS.Timeout | unknown = undefined;
 let previewSourceEditor: vscode.TextEditor | undefined = undefined;
 let linter: CalcpadServerLinter;
@@ -594,8 +595,16 @@ async function updateUiPreviewContent(panel: vscode.WebviewPanel, content: strin
         // Conditionally inject datagrid CDN only when needed
         const datagridCdn = htmlHasDatagrids(apiResponse) ? getDatagridCdnTags() : '';
 
+        // Inject "Save UI State" button
+        const saveUiButton = `<div id="calcpad-save-ui-bar" style="position:fixed;top:0;right:0;z-index:9999;padding:6px 10px;">
+<button onclick="vscode.postMessage({type:'saveUiState'})" style="
+    background:#0078d4;color:#fff;border:none;border-radius:4px;padding:4px 12px;
+    font-size:12px;cursor:pointer;opacity:0.85;
+" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.85'"
+>Save UI State</button></div>`;
+
         let htmlWithScript = sanitizedResponse.replace('</head>', vsCodeApiInit + errorNavigationScript + datagridCdn + '</head>');
-        htmlWithScript = htmlWithScript.replace('</body>', imageCacheScript + themeOverrideScript + uiEventScript + '</body>');
+        htmlWithScript = htmlWithScript.replace('</body>', saveUiButton + imageCacheScript + themeOverrideScript + uiEventScript + '</body>');
 
         // Log the final HTML to the dedicated output channel for debugging
         calcpadOutputHtmlChannel.clear();
@@ -982,6 +991,19 @@ async function createUiPreview(context: vscode.ExtensionContext) {
 
     previewSourceEditor = activeEditor;
     uiInputModel = new UiInputModel();
+    uiOverridesCommentLine = undefined;
+
+    // Load persisted UI overrides from file via definitions API
+    try {
+        const defs = await definitionsService.refreshDefinitions(activeEditor.document);
+        if (defs?.uiOverrides) {
+            uiInputModel.loadFromPersisted(defs.uiOverrides.overrides, defs.variables);
+            uiOverridesCommentLine = defs.uiOverrides.commentLine;
+            outputChannel.appendLine(`Loaded ${Object.keys(defs.uiOverrides.overrides).length} persisted UI overrides from line ${defs.uiOverrides.commentLine}`);
+        }
+    } catch (error) {
+        outputChannel.appendLine(`Failed to load persisted UI overrides: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    }
 
     if (activePreviewPanel && activePreviewType === 'ui') {
         (activePreviewPanel as vscode.WebviewPanel).reveal(vscode.ViewColumn.Beside);
@@ -1007,6 +1029,7 @@ async function createUiPreview(context: vscode.ExtensionContext) {
         activePreviewType = undefined;
         previewSourceEditor = undefined;
         uiInputModel = null;
+        uiOverridesCommentLine = undefined;
     });
 
     panel.webview.onDidReceiveMessage(
@@ -1034,6 +1057,10 @@ async function createUiPreview(context: vscode.ExtensionContext) {
                         srcEditor.revealRange(selection, vscode.TextEditorRevealType.InCenter);
                         vscode.window.showTextDocument(srcEditor.document, vscode.ViewColumn.One);
                     }
+                    break;
+                }
+                case 'saveUiState': {
+                    await saveUiStateToFile();
                     break;
                 }
                 case 'consoleMessage': {
@@ -1069,8 +1096,20 @@ function schedulePreviewUpdate() {
             // Update the source editor reference when updating preview
             previewSourceEditor = activeEditor;
             if (activePreviewType === 'ui') {
-                // Source changed — clear overrides since they may be stale
-                uiInputModel?.clear();
+                // Source changed — reload persisted overrides from the file
+                try {
+                    const defs = await definitionsService.refreshDefinitions(activeEditor.document);
+                    if (defs?.uiOverrides) {
+                        uiInputModel?.loadFromPersisted(defs.uiOverrides.overrides, defs.variables);
+                        uiOverridesCommentLine = defs.uiOverrides.commentLine;
+                    } else {
+                        uiInputModel?.clear();
+                        uiOverridesCommentLine = undefined;
+                    }
+                } catch {
+                    uiInputModel?.clear();
+                    uiOverridesCommentLine = undefined;
+                }
                 await updateUiPreviewContent(activePreviewPanel as vscode.WebviewPanel, activeEditor.document.getText(), activeEditor.document.uri);
             } else {
                 const unwrapped = activePreviewType === 'unwrapped';
@@ -1078,6 +1117,44 @@ function schedulePreviewUpdate() {
             }
         }
     }, 500);
+}
+
+async function saveUiStateToFile() {
+    if (!uiInputModel || !previewSourceEditor) {
+        vscode.window.showWarningMessage('No active UI preview.');
+        return;
+    }
+
+    const overrides = uiInputModel.getOverrides();
+    if (Object.keys(overrides).length === 0) {
+        vscode.window.showInformationMessage('No UI overrides to save.');
+        return;
+    }
+
+    const editor = previewSourceEditor;
+    const content = editor.document.getText();
+    const newContent = updateUiOverridesInContent(content, overrides, uiOverridesCommentLine);
+
+    const fullRange = new vscode.Range(
+        editor.document.positionAt(0),
+        editor.document.positionAt(content.length)
+    );
+
+    const success = await editor.edit(editBuilder => {
+        editBuilder.replace(fullRange, newContent);
+    });
+
+    if (success) {
+        // Update the comment line reference after the edit
+        // If we inserted at line 0, the comment is now on line 0
+        if (uiOverridesCommentLine === undefined) {
+            uiOverridesCommentLine = 0;
+        }
+        outputChannel.appendLine(`Saved UI overrides to file (${Object.keys(overrides).length} overrides)`);
+        vscode.window.showInformationMessage(`Saved ${Object.keys(overrides).length} UI override(s) to file.`);
+    } else {
+        vscode.window.showErrorMessage('Failed to save UI overrides to file.');
+    }
 }
 
 export async function activate(context: vscode.ExtensionContext) {
@@ -1384,6 +1461,10 @@ export async function activate(context: vscode.ExtensionContext) {
         createUiPreview(context);
     });
 
+    const saveUiStateCommand = vscode.commands.registerCommand('calcpad.saveUiState', () => {
+        saveUiStateToFile();
+    });
+
     const showInsertCommand = vscode.commands.registerCommand('vscode-calcpad.showInsert', () => {
         vscode.commands.executeCommand('workbench.view.extension.calcpad-ui');
     });
@@ -1561,6 +1642,7 @@ export async function activate(context: vscode.ExtensionContext) {
             previewCommand,
             previewUnwrappedCommand,
             previewUiCommand,
+            saveUiStateCommand,
             showInsertCommand,
             printToPdfCommand,
             refreshVariablesCommand,

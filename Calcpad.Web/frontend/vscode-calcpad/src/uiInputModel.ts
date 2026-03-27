@@ -1,3 +1,5 @@
+import type { VariableDefinition } from 'calcpad-frontend';
+
 /**
  * In-memory model for UI input field values.
  * Stores user-entered override values and provides them
@@ -38,5 +40,21 @@ export class UiInputModel {
     /** Clear all entries (e.g., when source file changes) */
     clear(): void {
         this.entries.clear();
+    }
+
+    /**
+     * Load overrides from a persisted HTML comment, resolving source lines
+     * from variable definitions returned by the definitions API.
+     */
+    loadFromPersisted(overrides: Record<string, string>, variables: VariableDefinition[]): void {
+        this.entries.clear();
+        const varMap = new Map(variables.map(v => [v.name, v.lineNumber]));
+        for (const [varName, value] of Object.entries(overrides)) {
+            this.entries.set(varName, {
+                variableName: varName,
+                currentValue: value,
+                sourceLine: varMap.get(varName) ?? -1
+            });
+        }
     }
 }

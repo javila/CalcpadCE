@@ -437,6 +437,44 @@ namespace Calcpad.Server.Controllers
 
                 var typeTracker = staged.Stage3.TypeTracker;
 
+                // Extract persisted uiOverrides from HTML comment blocks
+                PersistedUiOverridesDto? persistedUiOverrides = null;
+                try
+                {
+                    var commentTokenizer = new CalcpadTokenizer();
+                    var commentTokens = commentTokenizer.Tokenize(request.Content);
+                    var commentParser = new HtmlCommentParser();
+                    var commentBlocks = commentParser.Parse(commentTokens);
+
+                    foreach (var block in commentBlocks)
+                    {
+                        if (block.Status != HtmlCommentParseStatus.Success || !block.Data.HasValue)
+                            continue;
+                        if (!block.Data.Value.TryGetProperty("uiOverrides", out var overridesElement))
+                            continue;
+                        if (overridesElement.ValueKind != System.Text.Json.JsonValueKind.Object)
+                            continue;
+
+                        var overrides = new Dictionary<string, string>();
+                        foreach (var prop in overridesElement.EnumerateObject())
+                        {
+                            if (prop.Value.ValueKind == System.Text.Json.JsonValueKind.String)
+                                overrides[prop.Name] = prop.Value.GetString() ?? "";
+                        }
+
+                        persistedUiOverrides = new PersistedUiOverridesDto
+                        {
+                            Overrides = overrides,
+                            CommentLine = block.StartLine
+                        };
+                        break;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    FileLogger.LogWarning("Failed to extract persisted uiOverrides", ex.Message);
+                }
+
                 var response = new DefinitionsResponse
                 {
                     Macros = staged.Stage2.MacroDefinitions.Select(m => new MacroDefinitionDto
@@ -500,7 +538,9 @@ namespace Calcpad.Server.Controllers
                         LineNumber = u.LineNumber,
                         Source = u.Source ?? "local",
                         SourceFile = u.SourceFile
-                    }).ToList()
+                    }).ToList(),
+
+                    UiOverrides = persistedUiOverrides
                 };
 
                 return Ok(response);
@@ -901,6 +941,18 @@ namespace Calcpad.Server.Controllers
 
         /// <summary>All custom unit definitions</summary>
         public List<CustomUnitDefinitionDto> CustomUnits { get; set; } = new();
+
+        /// <summary>Persisted UI overrides extracted from an HTML comment block, if present</summary>
+        public PersistedUiOverridesDto? UiOverrides { get; set; }
+    }
+
+    public class PersistedUiOverridesDto
+    {
+        /// <summary>Variable name to override value mapping</summary>
+        public Dictionary<string, string> Overrides { get; set; } = new();
+
+        /// <summary>Zero-based line number of the HTML comment block containing the overrides</summary>
+        public int CommentLine { get; set; }
     }
 
     public class MacroDefinitionDto

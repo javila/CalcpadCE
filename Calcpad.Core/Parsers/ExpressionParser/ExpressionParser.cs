@@ -12,6 +12,8 @@ namespace Calcpad.Core
 {
     public partial class ExpressionParser
     {
+        private enum ParseMode { Cpd, Html, Markdown }
+
         private const int MaxHtmlLines = 200000;
         private int _errorCount;
         private int _isVal;
@@ -24,6 +26,7 @@ namespace Calcpad.Core
         private bool _isPausedByUser;
         private int _pauseCharCount;
         private bool _isMarkdownOn;
+        private ParseMode _parseMode;
         private MathParser _parser;
         private readonly StringBuilder _sb = new(10000);
         private Queue<int> _errors;
@@ -38,6 +41,7 @@ namespace Calcpad.Core
             set => Unit.IsUs = value;
         }
         public bool IsPaused => _startLine > 0;
+        private bool IsNonCpdMode => _parseMode != ParseMode.Cpd;
         public bool Debug { get; set; }
         public bool ShowWarnings { get; set; } = true;
         public readonly List<string> OpenXmlExpressions = new(100);
@@ -87,7 +91,7 @@ namespace Calcpad.Core
                         ParseKeywordContinue();
                         continue;
                     }
-                    if (currentLineCache.IsCached && keyword == Keyword.None)
+                    if (!IsNonCpdMode && currentLineCache.IsCached && keyword == Keyword.None)
                     {
                         if (IsEnabled())
                         {
@@ -158,28 +162,36 @@ namespace Calcpad.Core
                     if (_calculate && _condition.IsSatisfied && TryParseStringReassignment(textSpan))
                         continue;
 
-                    _parser.IsCalculation = _isVal != -1;
-                    if ((textSpan[0] != '$' || !ParsePlot(textSpan)) &&
-                        ParseCondition(textSpan, keyword))
+                    if (IsNonCpdMode)
                     {
-                        List<Token> tokens;
-                        if (_lineCache[_currentLine].IsCached)
-                            tokens = _lineCache[_currentLine].Tokens;
-                        else
+                        if (ParseCondition(textSpan, keyword))
+                            ParseNonCpdModeLine(textSpan, keyword);
+                    }
+                    else
+                    {
+                        _parser.IsCalculation = _isVal != -1;
+                        if ((textSpan[0] != '$' || !ParsePlot(textSpan)) &&
+                            ParseCondition(textSpan, keyword))
                         {
-                            var skipChars = keyword == Keyword.Ui ? _uiSkipChars :
-                                keyword == Keyword.Const ? 7 : _condition.KeywordLength;
-                            tokens = GetTokens(textSpan[skipChars..]);
-                            if (_isMarkdownOn)
-                                ParseMarkdown(tokens);
+                            List<Token> tokens;
+                            if (_lineCache[_currentLine].IsCached)
+                                tokens = _lineCache[_currentLine].Tokens;
+                            else
+                            {
+                                var skipChars = keyword == Keyword.Ui ? _uiSkipChars :
+                                    keyword == Keyword.Const ? 7 : _condition.KeywordLength;
+                                tokens = GetTokens(textSpan[skipChars..]);
+                                if (_isMarkdownOn)
+                                    ParseMarkdown(tokens);
 
-                            _lineCache[_currentLine] = new(tokens, keyword);
+                                _lineCache[_currentLine] = new(tokens, keyword);
+                            }
+                            _parser.HasInputFields = false;
+                            ParseLine(tokens, keyword);
+                            // If the line has input fields, the line cach is cleared, to allow #input to work
+                            if (_parser.HasInputFields)
+                                _lineCache[_currentLine] = new(null, keyword);
                         }
-                        _parser.HasInputFields = false;
-                        ParseLine(tokens, keyword);
-                        // If the line has input fields, the line cach is cleared, to allow #input to work
-                        if (_parser.HasInputFields)
-                            _lineCache[_currentLine] = new(null, keyword);
                     }
                 }
                 ApplyUnits(_sb, _calculate);
@@ -472,6 +484,7 @@ namespace Calcpad.Core
                 _parser.SetVariable("Units", new RealValue(UnitsFactor()));
                 _previousKeyword = Keyword.None;
                 _isMarkdownOn = false;
+                _parseMode = ParseMode.Cpd;
                 OpenXmlExpressions.Clear();
                 ResetUiState();
             }
@@ -507,6 +520,97 @@ namespace Calcpad.Core
                 _parser.ClearCache();
                 _parser = null;
             }
+        }
+
+        private void ParseNonCpdModeLine(ReadOnlySpan<char> textSpan, Keyword keyword)
+        {
+            var kwdLength = _condition.KeywordLength;
+            var content = kwdLength > 0 && kwdLength < textSpan.Length
+                ? textSpan[kwdLength..].ToString()
+                : kwdLength > 0 ? string.Empty : textSpan.ToString();
+
+            // Expand string variables and functions
+            if (_calculate)
+            {
+                if (_stringVariables.Count > 0)
+                    content = ExpandStringVariables(content);
+                if (content.Contains("$("))
+                    content = EvaluateStringFunctionsInExpression(content);
+            }
+
+            // Handle condition checking (#if with string tests)
+            if (_condition.IsUnchecked)
+            {
+                if (_calculate)
+                {
+                    var condExpr = content;
+                    if (_stringVariables.Count > 0 || _tableVariables.Count > 0 || condExpr.Contains("$("))
+                        condExpr = PreProcessExpression(condExpr);
+                    _parser.Parse(condExpr);
+                    _parser.Calculate();
+                    _condition.Check(_parser.Result);
+                }
+                else
+                    _condition.Check();
+                return;
+            }
+
+            // Output
+            var isOutput = _isVisible &&
+                (!_calculate || kwdLength == 0) &&
+                _htmlLines < MaxHtmlLines;
+
+            if (!isOutput)
+                return;
+
+            ++_htmlLines;
+            if (_htmlLines == MaxHtmlLines)
+            {
+                AppendError(content, string.Format(
+                    Messages.The_output_is_longer_than_0_lines_The_rest_will_be_skipped, MaxHtmlLines), _currentLine);
+                return;
+            }
+
+            // In Markdown mode, process content through Markdig
+            if (_parseMode == ParseMode.Markdown)
+                content = RenderMarkdown(content);
+
+            var trimmed = content.TrimStart();
+            var isHtmlContent = trimmed.Length > 0 && trimmed[0] == '<';
+            bool isIndent = keyword == Keyword.Else_If || keyword == Keyword.End_If;
+
+            if (isIndent)
+                _sb.Append("</div>");
+
+            string htmlId = HtmlId;
+            if (_pendingUi != null && Settings.EnableUi)
+                htmlId += GetUiAttributes(_currentLine);
+
+            if (kwdLength > 0)
+                _sb.Append(_condition.ToHtml());
+
+            if (isHtmlContent)
+                _sb.Append(InsertAttribute(content, htmlId));
+            else
+                _sb.Append($"<p{htmlId}>{content}</p>");
+
+            if (keyword == Keyword.If)
+                _sb.Append("<div class=\"indent\">");
+
+            _sb.AppendLine();
+
+            // Handle UI datagrid if pending
+            if (_pendingUi != null && Settings.EnableUi && _pendingUi.Type == "datagrid")
+            {
+                _sb.AppendLine(InjectUiDatagrid(string.Empty, _currentLine));
+                ResetUiState();
+            }
+        }
+
+        private static string RenderMarkdown(string content)
+        {
+            var pipeline = new MarkdownPipelineBuilder().UseEmphasisExtras().UseListExtras().Build();
+            return Markdown.ToHtml(content, pipeline);
         }
 
         private void AppendErrors()

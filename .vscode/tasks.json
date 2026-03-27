@@ -303,6 +303,22 @@
             "dependsOn": ["Extension: Compile", "Server: Deploy Slim Bundle to Extension"],
             "dependsOrder": "parallel",
             "problemMatcher": []
+        },
+        {
+            "label": "Extension: Build VSIX",
+            "type": "shell",
+            "command": "npx",
+            "args": ["vsce", "package", "--no-dependencies"],
+            "options": {
+                "cwd": "${workspaceFolder}/Calcpad.Web/frontend/vscode-calcpad"
+            },
+            "dependsOn": "Extension: Compile + Deploy Bundle",
+            "group": "build",
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated"
+            },
+            "problemMatcher": []
         }
     ]
 }

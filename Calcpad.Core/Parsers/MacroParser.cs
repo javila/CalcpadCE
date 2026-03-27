@@ -561,8 +561,7 @@ namespace Calcpad.Core
                         {
                             if (seenKeyword) throw Exceptions.InvalidNumberOfArguments();
                             var applied = ApplyMacros(rawArg);
-                            if (!string.IsNullOrWhiteSpace(applied))
-                                macroArguments.Add(applied);
+                            macroArguments.Add(string.IsNullOrWhiteSpace(applied) ? string.Empty : applied);
                         }
                         textSpan.Reset(i + 1);
 

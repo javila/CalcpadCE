@@ -52,6 +52,9 @@ namespace Calcpad.Core
             String,
             Table,
             Ui,
+            Html,
+            Cpd,
+            Markdown,
             SkipLine
         }
         private enum KeywordResult  
@@ -102,13 +105,19 @@ namespace Calcpad.Core
 
             Span<char> lower = stackalloc char[n];
             s.Slice(1, n).ToLowerInvariant(lower);
+            Keyword best = Keyword.None;
+            int bestLen = 0;
             for (int j = 0; j < ind.Count; ++j)
             {
                 var k = ind[j];
-                if (lower.StartsWith(KeywordNames[k]))
-                    return KeywordValues[k];
+                var kwLen = KeywordNames[k].Length;
+                if (kwLen > bestLen && lower.StartsWith(KeywordNames[k]))
+                {
+                    best = KeywordValues[k];
+                    bestLen = kwLen;
+                }
             }
-            return Keyword.None;
+            return best;
         }
 
         KeywordResult ParseKeyword(ReadOnlySpan<char> s, ref Keyword keyword)
@@ -120,6 +129,13 @@ namespace Calcpad.Core
 
             if (keyword == Keyword.None)
                 return KeywordResult.None;
+
+            if (IsNonCpdMode && IsBlockedInNonCpdMode(keyword))
+            {
+                var modeName = _parseMode == ParseMode.Html ? "#HTML" : "#markdown";
+                AppendError(s.ToString(), $"Keyword is not available in {modeName} mode.", _currentLine);
+                return KeywordResult.Continue;
+            }
 
             switch (keyword)
             {
@@ -223,6 +239,15 @@ namespace Calcpad.Core
                 case Keyword.Ui:
                     ParseKeywordUi(s);
                     return KeywordResult.None;
+                case Keyword.Html:
+                    _parseMode = ParseMode.Html;
+                    break;
+                case Keyword.Cpd:
+                    _parseMode = ParseMode.Cpd;
+                    break;
+                case Keyword.Markdown:
+                    _parseMode = ParseMode.Markdown;
+                    break;
                 default:
                     if (keyword != Keyword.Global && keyword != Keyword.Local)
                         return KeywordResult.None;
@@ -807,6 +832,20 @@ namespace Calcpad.Core
             }
             return result;
         }
+
+        private static bool IsBlockedInNonCpdMode(Keyword keyword) => keyword switch
+        {
+            Keyword.Val or Keyword.Equ or Keyword.Noc or
+            Keyword.NoSub or Keyword.NoVar or Keyword.VarSub or
+            Keyword.Const or Keyword.Split or Keyword.Wrap or
+            Keyword.Deg or Keyword.Rad or Keyword.Gra or
+            Keyword.Round or Keyword.Format or
+            Keyword.For or Keyword.While or Keyword.Repeat or
+            Keyword.Loop or Keyword.Break or Keyword.Continue or
+            Keyword.Phasor or Keyword.Complex or
+            Keyword.Pause or Keyword.Input => true,
+            _ => false
+        };
 
         private void ReportDataExchageResult(ReadWriteOptions options, string command)
         {

@@ -22,6 +22,7 @@ export class CalcpadServerManager {
     private dotnetPath: string;
     private _isRunning: boolean = false;
     private _disposed: boolean = false;
+    private _startingUp: boolean = false;
     private _restartCount: number = 0;
     private _lastCrashOutput: string[] = [];
     private pidFilePath: string;
@@ -147,8 +148,9 @@ export class CalcpadServerManager {
             this.serverProcess = null;
             this.removePidFile();
 
-            // Auto-restart if not intentionally disposed
-            if (!this._disposed && code !== 0) {
+            // Auto-restart if not intentionally disposed and not in initial startup
+            // (during startup, waitForReady will detect the exit and report the error)
+            if (!this._disposed && !this._startingUp && code !== 0) {
                 this._restartCount++;
                 if (this._restartCount < CalcpadServerManager.MAX_RESTARTS) {
                     this.log(`Unexpected exit — attempting restart ${this._restartCount}/${CalcpadServerManager.MAX_RESTARTS} in 2 seconds...`);
@@ -167,10 +169,15 @@ export class CalcpadServerManager {
             }
         });
 
-        await this.waitForReady(serverUrl);
-        this._isRunning = true;
-        this._lastCrashOutput = [];
-        this.log(`Server is ready at ${serverUrl}`);
+        this._startingUp = true;
+        try {
+            await this.waitForReady(serverUrl);
+            this._isRunning = true;
+            this._lastCrashOutput = [];
+            this.log(`Server is ready at ${serverUrl}`);
+        } finally {
+            this._startingUp = false;
+        }
     }
 
     /**
@@ -297,6 +304,16 @@ export class CalcpadServerManager {
         const healthUrl = `${serverUrl}/api/calcpad/snippets`;
 
         for (let i = 0; i < maxAttempts; i++) {
+            // Fail fast if the server process has already exited
+            if (!this.serverProcess || this.serverProcess.exitCode !== null) {
+                const crashOutput = this._lastCrashOutput.join('\n');
+                throw new Error(
+                    crashOutput
+                        ? `Server process crashed during startup:\n${crashOutput}`
+                        : 'Server process exited unexpectedly during startup (no stderr output captured)'
+                );
+            }
+
             try {
                 const response = await fetch(healthUrl);
                 if (response.ok) {
