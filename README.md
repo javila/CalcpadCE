@@ -1,6 +1,6 @@
 # Calcpad Readme  
   
-Project Website: [https://calcpad.eu](https://calcpad.eu)  
+Project Website: https://calcpad-ce.org/
   
 Calcpad is free software for mathematical and engineering calculations. It represents a flexible and modern programmable calculator with Html report generator. It is simple and easy to use, but it also includes many advanced features:  
   
@@ -30,15 +30,14 @@ Calcpad is free software for mathematical and engineering calculations. It repre
 * support for plain text (\*.txt, \*.cpd) and binary (\*.cpdz) file formats.
   
 This software is developed using the C# programming language and the latest computer technologies. It automatically parses the input, substitutes the variables, calculates the expressions and displays the output. All results are sent to a professional looking Html report for viewing and printing.
-  
-![Sample](https://github.com/Proektsoftbg/Calcpad/blob/main/Help/Images/Sample.png?raw=true)  
-  
+    
 ## Fields of application  
 This software is suitable for engineers and other professionals that need to perform repetitive calculations and present them in official documentation such as calculation notes. They can automate this task efficiently by creating powerful and reliable Calcpad worksheets. It can also help teachers to prepare calculation examples, papers, manuals, books etc. Students can use it to solve various problems, prepare homeworks, theses etc.  
   
 ## Installation  
-The installation is performed by the automated setup program [calcpad-VM-setup-en-x64.exe](https://github.com/Proektsoftbg/CalcpadVM/blob/main/Setup/calcpad-VM-setup-en-x64.exe). Follow the instruction of the setup wizard. The software requires a 64 bit computer with Windows 10/11 and [Microsoft .NET Desktop Runtime 10.0](https://dotnet.microsoft.com/en-us/download/dotnet/10.0).  
-You can also use Calcpad directly in the browser from our website: [https://calcpad.eu/Ide](https://calcpad.eu/Ide)  
+To install the last open-source version of the original repository, extract the ZIP folder somewhere on your computer and run the Calcpad.exe file. Alternatively, you can use the portable version and run that anywhere on your machine. The software requires a 64 bit computer with Windows 10/11 and [Microsoft .NET Desktop Runtime 10.0](https://dotnet.microsoft.com/en-us/download/dotnet/10.0) unless you use the portable version.
+
+You can also use Calcpad directly in the browser from our website: https://calcpad-ce.org/
   
 ## Licensing and terms of use  
 This software is free for both commercial and non-commercial use. It is distributed under the MIT license:  
