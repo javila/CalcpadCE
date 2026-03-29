@@ -1,6 +1,6 @@
 # Calcpad.Web Changelog
 
-## calcpad-highlighter Branch — Feature Summary
+## calcpad-experimental Branch — Feature Summary
 
 This changelog documents all new features and changes introduced on the `calcpad-highlighter` branch since diverging from `main`. It covers the VS Code extension, web backend, Calcpad.Core parser, and Calcpad.Highlighter library.
 
