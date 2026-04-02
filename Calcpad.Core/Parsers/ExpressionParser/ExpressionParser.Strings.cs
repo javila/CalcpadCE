@@ -106,6 +106,7 @@ namespace Calcpad.Core
             // Resolve string comparisons (== / ≡ / != / ≠) before expanding to math
             result = ResolveStringComparisons(result);
             result = ExpandStringVariables(result);
+            ThrowIfUndefinedStringVariables(result);
             return result;
         }
 
@@ -140,6 +141,46 @@ namespace Calcpad.Core
                     text = text.Replace(kvp.Key, kvp.Value, StringComparison.OrdinalIgnoreCase);
             }
             return text;
+        }
+
+        private void ThrowIfUndefinedStringVariables(string text)
+        {
+            for (int i = 0; i < text.Length; i++)
+            {
+                if (text[i] != '$')
+                    continue;
+
+                if (i == 0)
+                    continue;
+
+                if (!char.IsLetterOrDigit(text[i - 1]) && text[i - 1] != '_')
+                    continue;
+
+                // $( is a function call — skip
+                if (i + 1 < text.Length && text[i + 1] == '(')
+                    continue;
+
+                // Walk backwards to find the start of the identifier
+                int nameStart = i - 1;
+                while (nameStart > 0 && (char.IsLetterOrDigit(text[nameStart - 1]) || text[nameStart - 1] == '_'))
+                    nameStart--;
+
+                if (!char.IsLetter(text[nameStart]) && text[nameStart] != '_')
+                    continue;
+
+                var name = text[nameStart..(i + 1)];
+
+                if (_stringVariables.ContainsKey(name))
+                    continue;
+
+                if (_tableVariables.ContainsKey(name))
+                    continue;
+
+                if (StringCalculator.IsFunction(name))
+                    continue;
+
+                throw Exceptions.UndefinedVariableOrUnits(name);
+            }
         }
 
         private string EvaluateStringFunctionsInExpression(string expression)

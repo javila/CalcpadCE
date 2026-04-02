@@ -28,7 +28,7 @@ export class CalcpadHoverProvider implements vscode.HoverProvider {
         // Match identifiers including $ suffix (macros) and Unicode (Greek letters etc.)
         const wordRange = document.getWordRangeAtPosition(
             position,
-            /[a-zA-Z_\u0080-\uFFFF][a-zA-Z0-9_\u0080-\uFFFF]*\$?/
+            /[a-zA-Z_\u0080-\uFFFF][a-zA-Z0-9_,\u0080-\uFFFF]*\$?/
         );
         if (!wordRange) {
             return null;

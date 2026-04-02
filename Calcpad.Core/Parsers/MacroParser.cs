@@ -600,20 +600,9 @@ namespace Calcpad.Core
 
                     if (macro.IsEmpty)
                     {
-                        bool isStringFunc = false;
-                        for (int k = 0; k <= mlen; ++k)
-                            if (StringCalculator.IsFunction(macroName[k..]))
-                            {
-                                isStringFunc = true;
-                                break;
-                            }
-                        if (isStringFunc)
-                        {
-                            stringBuilder.Append(textSpan.Cut());
-                            textSpan.Reset(i);
-                            continue;
-                        }
-                        throw Exceptions.UndefinedMacro(macroName);
+                        stringBuilder.Append(textSpan.Cut());
+                        textSpan.Reset(i);
+                        continue;
                     }
                     else if (j > 0)
                         stringBuilder.Append(macroName[..j]);

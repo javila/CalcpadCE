@@ -61,8 +61,8 @@ export const calcpadLanguage: monaco.languages.IMonarchLanguage = {
             // Brackets
             [/[{}()\[\]]/, 'bracket'],
 
-            // Identifiers
-            [/[a-zA-Z_α-ωΑ-Ω][a-zA-Z0-9_α-ωΑ-Ω]*/, 'identifier'],
+            // Identifiers (commas are valid in Calcpad variable names; semicolons are argument separators)
+            [/[a-zA-Z_α-ωΑ-Ω][a-zA-Z0-9_,α-ωΑ-Ω]*/, 'identifier'],
 
             // Whitespace
             [/\s+/, 'white'],
@@ -79,6 +79,7 @@ export const calcpadLanguage: monaco.languages.IMonarchLanguage = {
  * Language configuration for CalcPad (brackets, auto-closing, etc.).
  */
 export const calcpadLanguageConfiguration: monaco.languages.LanguageConfiguration = {
+    wordPattern: /(-?\d*\.\d\w*)|([^\`\~\!\@\#\%\^\&\*\(\)\-\=\+\[\{\]\}\\\|\;\:\'\"\.\<\>\/\?\s]+)/,
     comments: {
         lineComment: "'",
         blockComment: ['"', '"'],

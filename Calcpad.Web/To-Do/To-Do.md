@@ -80,7 +80,6 @@
 	'</script>
 #end def
 - Fix tokenization of custom units
-- θ = 0°note$('Load parallel to weld axis'), degree symbol is tokenized as macro instead of unit
 
 ## Calcpad.Core
 

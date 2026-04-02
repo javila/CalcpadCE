@@ -343,12 +343,13 @@ namespace Calcpad.Highlighter.Linter.Validators.Stage3
 
                     if (!isDefined)
                     {
-                        // Check if this looks like param.x where param is a function parameter.
-                        // Function params don't support .i syntax - must use .(i).
                         var dotIdx = baseName.IndexOf('.');
                         if (dotIdx > 0)
                         {
                             var beforeDot = baseName.Substring(0, dotIdx);
+
+                            // Check if this looks like param.x where param is a function parameter.
+                            // Function params don't support .i syntax - must use .(i).
                             if (functionParams.Contains(beforeDot) || commandScopeVars.Contains(beforeDot))
                             {
                                 var afterDot = baseName.Substring(dotIdx + 1);
@@ -356,6 +357,18 @@ namespace Calcpad.Highlighter.Linter.Validators.Stage3
                                     "'" + baseName + "'. Function parameters require .()" +
                                     " syntax for element access: " + beforeDot + ".(" + afterDot + ")");
                                 continue;
+                            }
+
+                            // If the base variable before the dot is defined and its type
+                            // supports element access (Unknown, Vector, Matrix, Various),
+                            // suppress the false positive. The tokenizer didn't split the dot
+                            // because it didn't know the variable was a vector/matrix during
+                            // tokenization, but element access is still plausible.
+                            if (stage3.DefinedVariables.Contains(beforeDot) && stage3.TypeTracker != null)
+                            {
+                                var varInfo = stage3.TypeTracker.GetVariableInfo(beforeDot);
+                                if (varInfo == null || varInfo.SupportsElementAccess)
+                                    continue;
                             }
                         }
                         // Line continuation mapping is handled automatically by LinterResult
