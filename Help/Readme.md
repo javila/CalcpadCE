@@ -196,11 +196,11 @@ Just follow these simple steps:
 
 1.  **Enter** text and formulas into the "**Code**" box on the left.
 
-2.  Press **F5** or click <img src="./media/image6.png" style="width:0.19653in;height:0.19653in" /> to calculate.
+2.  Press **F5** or click <img src="./media/image6.png" alt="" height="20"> to calculate.
 Results will appear in the "**Output**" box on the right as a professionally formatted Html **report**.
 
-3.  Click <img src="./media/image7.png" style="width:0.19653in;height:0.19653in" /> to **print** or <img src="./media/image8.png" style="width:0.19653in;height:0.19653in" /> to **copy** the output.  
-    You can also **export** it to **Html** <img src="./media/image9.png" style="width:0.19653in;height:0.19653in" />, **PDF** <img src="./media/image10.png" style="width:0.19653in;height:0.19653in" /> or **MS Word** <img src="./media/image11.png" style="width:0.19653in;height:0.19653in" /> document.
+3.  Click <img src="./media/image7.png" alt="" height="20"> to **print** or <img src="./media/image8.png" alt="" height="20"> to **copy** the output.  
+    You can also **export** it to **Html** <img src="./media/image9.png" alt="" height="20">, **PDF** <img src="./media/image10.png" alt="" height="20"> or **MS Word** <img src="./media/image11.png" alt="" height="20"> document.
 
 The program can be used in two different modes:
 
@@ -215,7 +215,7 @@ The remaining content is locked for editing.
 This mode is more convenient for complex problems with rich formatting, that are frequently used.
 It makes clear which are the required input parameters and protects the source code from accidental damage.
 
-In "**Input Form**" mode, you need to fill the input data and click the <img src="./media/image6.png" style="width:0.19653in;height:0.19653in" /> button.
+In "**Input Form**" mode, you need to fill the input data and click the <img src="./media/image6.png" alt="" height="20"> button.
 You can create such a from very easy, directly out of the source code.
 Just put the "**?**" symbol wherever you need to enter a value.
 Then save the problem as "\*.cpd" file.
@@ -285,12 +285,12 @@ When you press a button, the respective symbols are inserted at the place of the
 The keypad is separated into four sections: "**Numbers**", "**Operators**", "**Functions**" and "**Other**". The "**=**" key does not calculate the answer as on simple calculators.
 This is the assignment operator (e.g. "*a* = 4"). If you need to check the equality of two numbers, use the "≡" operator (for example, "*a* ≡ *b*" means: "Is *a* equal to *b*?"). The "**e**", "**π**" and "**g**" keys insert the respective built-in constants *e* ≈ 2.7183, *π* ≈ 3.1416 and *g* ≈ 9.8066.
 
-If you don't need the keypad and want to free some space, you can hide it with the <img src="./media/image13.png" style="width:0.19653in;height:0.19653in" /> button.
+If you don't need the keypad and want to free some space, you can hide it with the <img src="./media/image13.png" alt="" height="20"> button.
 Click again to show the keypad back.
 
 The "**C**" button deletes the previous symbol and "**AC**" deletes a whole line.
 If you double click this button, you will clear the whole text.
-If you have done this accidentally, you can use **Undo** <img src="./media/image14.png" style="width:0.20833in;height:0.20833in" alt="Undo" /> to restore.
+If you have done this accidentally, you can use **Undo** <img src="./media/image14.png" alt="Undo" height="20"> to restore.
 
 #### Moving inside the text
 
@@ -326,12 +326,12 @@ If some part of the text is repeated, you can copy it instead of typing it again
 That requires two steps: "Copy" and "Paste". At the first step (Copy), the selected text is sent to memory called **Clipboard**. At the second step (Paste), the text is inserted at the new places.
 Once copied, you can paste the text at multiple places.
 
-You can copy the selected text to the Clipboard by pressing "**Ctrl+C**" or by clicking the <img src="./media/image8.png" style="width:0.19653in;height:0.19653in" /> button.
+You can copy the selected text to the Clipboard by pressing "**Ctrl+C**" or by clicking the <img src="./media/image8.png" alt="" height="20"> button.
 
 #### Paste
 
 Before you paste a text from the Clipboard you have to position the cursor at the required place.
-Then press "**Ctrl+V**" or the <img src="./media/image15.png" style="width:0.19653in;height:0.19653in" /> button.
+Then press "**Ctrl+V**" or the <img src="./media/image15.png" alt="" height="20"> button.
 You can copy text from Calcpad and paste it to other programs and vice versa.
 For example, you can take some formulas from Word, calculate them in Calcpad and return the results back to Word.
 
@@ -339,19 +339,19 @@ For example, you can take some formulas from Word, calculate them in Calcpad and
 
 This command undoes the result from the last editing command and restores the previous state.
 You can undo up to 10 steps back.
-Just press "**Ctrl+Z**" or click the <img src="./media/image14.png" style="width:0.20833in;height:0.20833in" alt="Undo" /> button.
+Just press "**Ctrl+Z**" or click the <img src="./media/image14.png" alt="Undo" height="20"> button.
 
 #### Redo
 
 "Redo" performs in the opposite way to "Undo". It restores a command that has been undone.
 Redo must follow immediately the last Undo.
 If you enter or edit some text meanwhile, you will lose the ability to redo.
-Click the <img src="./media/image16.png" style="width:0.19653in;height:0.19653in" /> button to redo.
+Click the <img src="./media/image16.png" alt="" height="20"> button to redo.
 
 #### Find
 
 You can search for a certain text inside the code and replace it with another, if needed.
-Select the "**Edit/Find**" menu, click the <img src="./media/image17.png" style="width:0.19653in;height:0.19653in" /> button or press "**Ctrl+F**". The "**Find And Replace**" dialog will appear.
+Select the "**Edit/Find**" menu, click the <img src="./media/image17.png" alt="" height="20"> button or press "**Ctrl+F**". The "**Find And Replace**" dialog will appear.
 
 <img src="./media/image18.png" style="width:4.63665in;height:2.70839in" />
 
@@ -472,7 +472,7 @@ By default, each expression has to be in a separate line, e.g.:
 
 You must not add "=" at the end of each expression.
 This is the assignment operator.
-It is used to assign values to variables, e.g. "*a* = 2". Press the <img src="./media/image6.png" style="width:0.19653in;height:0.19653in" /> button, to see the results in the output window:
+It is used to assign values to variables, e.g. "*a* = 2". Press the <img src="./media/image6.png" alt="" height="20"> button, to see the results in the output window:
 
 > 2 + 3 = 5
 >
@@ -4379,7 +4379,7 @@ If the image is located in the same folder as the current worksheet, you can spe
 Otherwise, the image will become part of the text flow and will make it split.
 Alternatively, to **style="float:right"**, you can use **class="side"** for the same purpose.
 
-You can also insert an image using the <img src="./media/image32.png" style="width:0.19653in;height:0.19653in" /> button from the toolbar.
+You can also insert an image using the <img src="./media/image32.png" alt="" height="20"> button from the toolbar.
 You will be prompted to select a file.
 When you click "**Open**", the required record will be inserted at the beginning of the code.
 When you run the calculations, the picture will appear in the output window.
@@ -4593,8 +4593,8 @@ If you click inside a word and press a formatting button, it is applied for the 
 
 If you have a long and complicated problem or you want to share your solution with others, it is a good idea to create an input form.
 It is very easy to do that with Calcpad.
-Just replace the values that need to be entered with question marks "**?**", e.g. "*a* = ?". Please note that after that, you will not be able to calculate the results directly by clicking <img src="./media/image6.png" style="width:0.19653in;height:0.19653in" />. You must compile it first to an input form.
-For that purpose, click the <img src="./media/image34.png" style="width:0.19653in;height:0.19653in" /> button or press **F4** from the keyboard.
+Just replace the values that need to be entered with question marks "**?**", e.g. "*a* = ?". Please note that after that, you will not be able to calculate the results directly by clicking <img src="./media/image6.png" alt="" height="20">. You must compile it first to an input form.
+For that purpose, click the <img src="./media/image34.png" alt="" height="20"> button or press **F4** from the keyboard.
 
 The code will hide, and the form will be loaded into the "**Input**" box at the full width of the main window.
 All texts and formulas will be rendered in Html format, protected from modification.
@@ -4603,14 +4603,14 @@ The ready-to-use input form will look as follows:
 
 <img src="./media/image35.png" style="width:6.65977in;height:4.40945in" alt="Sample3" />
 
-Now you have to fill in the input boxes and click <img src="./media/image6.png" style="width:0.19653in;height:0.19653in" /> to calculate the results.
+Now you have to fill in the input boxes and click <img src="./media/image6.png" alt="" height="20"> to calculate the results.
 They are displayed in the "**Output**" box.
 
 <img src="./media/image36.png" style="width:6.65977in;height:4.40945in" alt="Sample4" />
 
-In order to return to input mode, click again <img src="./media/image6.png" style="width:0.19653in;height:0.19653in" /> to switch the button off.
+In order to return to input mode, click again <img src="./media/image6.png" alt="" height="20"> to switch the button off.
 Input data will remain unchanged from the last input.
-If you need to modify the source code, you have to unlock it by clicking the <img src="./media/image34.png" style="width:0.19653in;height:0.19653in" /> button.
+If you need to modify the source code, you have to unlock it by clicking the <img src="./media/image34.png" alt="" height="20"> button.
 The "**Code**" box will show again at the left side of the main window.
 Input data will be attached to the question marks.
 If you hover the mouse over one of them, you will see the respective value.
@@ -4888,7 +4888,7 @@ When the execution is paused, the program renders a message at the bottom of the
   Paused!
 Press **F5** to [continue](#0) or **Esc** to [cancel](#0).
 
-You can resume the execution by pressing **F5**, clicking the link or the <img src="./media/image6.png" style="width:0.19653in;height:0.19653in" /> button again.
+You can resume the execution by pressing **F5**, clicking the link or the <img src="./media/image6.png" alt="" height="20"> button again.
 You can have several breakpoints in a single worksheet.
 When you use the \#Input keyword, the previous section is calculated before the current input form is displayed.
 In this way, the stages of calculation overlap as shown in the following example:
@@ -6396,7 +6396,7 @@ For example: \#write *M* to filename.xlsx@Sheet1!C2 will produce the followin
 
 ## Results
 
-You can run the solution by pressing **F5** or clicking the <img src="./media/image6.png" style="width:0.19653in;height:0.19653in" /> button.
+You can run the solution by pressing **F5** or clicking the <img src="./media/image6.png" alt="" height="20"> button.
 The results will appear in the "**Output**" box.
 You cannot edit the output content, but you can select, copy and print it.
 For that purpose, you can use the toolbar above the "**Output**" box on the right.
@@ -6658,12 +6658,12 @@ You can save the output to an **Html** file . Unlike the input file, it cannot b
 On the other hand, everyone will be able to view and print your calculations without Calcpad.
 Html files can be opened on any computer using web browser or office program like Word.
 
-You can save the file by clicking the <img src="./media/image9.png" style="width:0.19653in;height:0.19653in" /> button above the output box.
+You can save the file by clicking the <img src="./media/image9.png" alt="" height="20"> button above the output box.
 Then select a file name and click "**Save**".
 
 ### Printing
 
-You can print the output by clicking the <img src="./media/image7.png" style="width:0.19653in;height:0.19653in" /> button.
+You can print the output by clicking the <img src="./media/image7.png" alt="" height="20"> button.
 Normally, printing is performed after calculations.
 When you click the button, the print preview dialog will be displayed:
 
@@ -6675,14 +6675,14 @@ The above screenshots may look different on your computer, depending on the vers
 
 ### Copying
 
-You can copy the entire output at once by clicking the <img src="./media/image8.png" style="width:0.19653in;height:0.19653in" /> button above the output window.
+You can copy the entire output at once by clicking the <img src="./media/image8.png" alt="" height="20"> button above the output window.
 Then, you can paste it in any other program.
 If the target program supports Html, like Word, the formatting will be preserved.
 Otherwise, the content will be pasted as plain text.
 
 ### Export to Word
 
-You can open the results directly with **MS Word** by clicking <img src="./media/image11.png" style="width:0.19653in;height:0.19653in" />. It must be installed on the computer, but it is not necessary to be preliminary open.
+You can open the results directly with **MS Word** by clicking <img src="./media/image11.png" alt="" height="20">. It must be installed on the computer, but it is not necessary to be preliminary open.
 This approach is easier than copy-paste and provides some additional benefits.
 If the output is obtained with the professional equation formatting option, Calcpad will use the "**\*.docx**" file format for export.
 This is the native format for the latest versions of **MS Word** and will open automatically.
@@ -6699,7 +6699,7 @@ It will preserve most of the formatting, but formulas will be part of the docume
 
 A good alternative to **Html** is to save the report as **pdf** file.
 It is another way to make a hard copy of your calculations.
-Click the <img src="./media/image10.png" style="width:0.19653in;height:0.19653in" /> button and select the name and the location of the file.
+Click the <img src="./media/image10.png" alt="" height="20"> button and select the name and the location of the file.
 The program will save the output to the specified file and open it with the default viewer.
 The pdf is always generated in A4 page size.
 
@@ -6719,7 +6719,7 @@ The source code inside is protected from viewing, copying and modification.
 
 ### New
 
-You can start a new file by clicking the <img src="./media/image42.png" style="width:0.19653in;height:0.19653in" /> button.
+You can start a new file by clicking the <img src="./media/image42.png" alt="" height="20"> button.
 This will clear the file name and the source code.
 If the current file is not saved, you will be prompted to do that.
 
@@ -6731,7 +6731,7 @@ If you select "**Cancel**" you will interrupt the command and everything will re
 
 ### Open
 
-You can open an existing file with the <img src="./media/image44.png" style="width:0.19653in;height:0.19653in" /> button.
+You can open an existing file with the <img src="./media/image44.png" alt="" height="20"> button.
 A file selection dialog will appear.
 The active file extension is "\*.cpd", by default.
 If you search for "\*.txt" or "\*.cpdz" files, select the corresponding type at the bottom of the dialog.
@@ -6740,7 +6740,7 @@ It will be loaded into Calcpad and the file name will be displayed in the title 
 
 ### Save
 
-You can save the current file by clicking the <img src="./media/image9.png" style="width:0.19653in;height:0.19653in" /> button.
+You can save the current file by clicking the <img src="./media/image9.png" alt="" height="20"> button.
 If the file has not been saved so far, you will be prompted to select path and name.
 Otherwise, it will be rewritten at the current location.
 
