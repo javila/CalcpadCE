@@ -15,15 +15,15 @@ Calcpad uses large vectors to contain the values.
 So, it does not store the extra zero elements for partially filled (banded) matrices.
 The indexing operator for each type is internally redefined in order to return directly zero when we try to read a value outside the matrix structure or bandwidth.
 
-|  |  |
-|----|----|
-| a\) diagonal matrix - | *M*\[*i*, *j*\] = *d*\[*i*\], if *i* = *j* and 0, if *i* ≠ *j*; |
-| b\) column matrix - | *M*\[*i*, *j*\] = *c*\[*i*\], if *j* = 1, otherwise – error; |
-| c\) upper triangular matrix - | *M*\[*i*, *j*\] = *r*i\[*j* – *i* + 1\], if *j* ≥ *i*, otherwise – 0; |
-| d\) lower triangular matrix - | *M*\[*i*, *j*\] = *r*i\[*j*\], if *j* ≤ *i*, otherwise – 0; |
-| e\) row matrix - | *M*\[*i*, *j*\] = *r*\[*j*\], if *i* = 1, otherwise – error; |
-| f\) symmetric matrix - | *M*\[*i*, *j*\] = *r*i\[*j* – *i* + 1\], if *i* ≥ *j*, otherwise = *r*i \[*i* – *j* + 1\]; |
-| g\) rectangular matrix - | *M*\[*i*, *j*\] = *r*i\[*j*\]; |
+| | |
+| ---- | ---- |
+| diagonal matrix | *M*\[*i*, *j*\] = *d*\[*i*\], if *i* = *j* and 0, if *i* ≠ *j*; |
+| column matrix | *M*\[*i*, *j*\] = *c*\[*i*\], if *j* = 1, otherwise – error; |
+| upper triangular matrix | *M*\[*i*, *j*\] = *r*i\[*j* – *i* + 1\], if *j* ≥ *i*, otherwise – 0; |
+| lower triangular matrix | *M*\[*i*, *j*\] = *r*i\[*j*\], if *j* ≤ *i*, otherwise – 0; |
+| row matrix | *M*\[*i*, *j*\] = *r*\[*j*\], if *i* = 1, otherwise – error; |
+| symmetric matrix | *M*\[*i*, *j*\] = *r*i\[*j* – *i* + 1\], if *i* ≥ *j*, otherwise = *r*i \[*i* – *j* + 1\]; |
+| rectangular matrix | *M*\[*i*, *j*\] = *r*i\[*j*\]; |
 
 If we try to write a non-zero value outside the matrix structure, we will get an "Index out of range" error.
 For example, you cannot assign a non-zero value to an element outside the main diagonal of a diagonal type of matrix.
@@ -32,7 +32,7 @@ For example, you cannot assign a non-zero value to an element outside the main d
 
 Similar to vectors, you can define matrices by using the "square brackets" syntax, but the rows must be separated by vertical bars " \| ", as follows:
 
-*A*m⨯n = \[*a*11; *a*12; ... ; *a*1n \| *a*21; *a*22; ... ; *a*2n \| ... \| *a*m1; *a*m2; ... ; *a*mn\]
+`A_m⨯n = [a_11;a_12;...;a_1n|a_21;a_22;...;a_2n|...|a_m1;a_m2;...;a_mn]`
 
 In this way, you can create only general (rectangular) types of matrices.
 For special types of matrices, you have to use the respective creational functions as described further in this manual.
@@ -40,7 +40,7 @@ If you have rows with different lengths, the number of columns *n* is assumed to
 The missing elements in other rows are assumed to be zero.
 For example:
 
-  *A* = \[1\|2; 3\|4; 5; 6\|7; 8\]' = $`\begin{bmatrix}
+`A = [1|2; 3|4; 5; 6|7; 8]` $`= \begin{bmatrix}
 1 & 0 & 0 \\
 2 & 3 & 0 \\
 4 & 5 & 6 \\
