@@ -7,30 +7,23 @@ Their parameters must be enclosed in curly brackets: "{" and "}". Such is the pl
 It can plot a function of one variable in the specified interval.
 It has the following format:
 
-\$Plot{**y**(*x*) @ *x* = *a* : *b*} , where:
+`$Plot{y(x) @ x = a : b}`, where:
 
-> **y**(*x*) - the function to be plotted.
-Instead of **y**(*x*) you can put any valid expression.
-It will be used to calculate the ordinate values;
->
-> *x* - the name of the variable along the abscissa.
-You can put here only a single name.
-It is not required to define the variable preliminary;
->
-> *a* and *b* are the limits of the interval for the *x* variable.
-Instead of *a* and *b* you can put numbers, variables or any valid expressions.
+- **y**(*x*) - the function to be plotted. Instead of **y**(*x*) you can put any valid expression. It will be used to calculate the ordinate values;
+- *x* - the name of the variable along the abscissa. You can put here only a single name. It is not required to define the variable preliminary;
+- *a* and *b* are the limits of the interval for the *x* variable. Instead of *a* and *b* you can put numbers, variables or any valid expressions.
 
-For example, if you enter: \$Plot{*x*^2 - 5\**x* + 3 @ x = -1:6}, you will get the following result:
+For example, if you enter: `$Plot{x^2 - 5*x + 3 @ x = -1:6}`, you will get the following result:
 
 <img src="../media/image20.png" style="width:4.01795in;height:2.81417in" alt="Картина, която съдържа диаграма, заговорнича, линия Описанието е генерирано автоматично" />
 
 The above command plots only one function of one variable at a time.
 There are also other formats that you can use:
 
-> \$Plot{**x**(*t*)\|**y**(*t*) @ *t* = *a*:*b*} - parametric plot: both coordinates are functions of a parameter;  
-> \$Plot{**y**1(*x*) & **y**2(*x*) & … @ *x* = *a*:*b*} - multiple: plots several functions on a single graph;  
-> \$Plot{**x**1(*t*)\|**y**1(*t*) & **x**2(*t*)\|**y**2(*t*) & … @ *t* = *a*:*b*} - multiple parametric;  
-> \$Map{**f**(*x*; *y*) @ *x* = *a*:*b* & *y* = *c*:*d*} - draws a 2D color map of a 3D surface, defined by **f**(*x*; *y*).
+- `$Plot{x(t) | y(t) @ t = a:b}` parametric plot: both coordinates are functions of a parameter;  
+- `$Plot{y1(x) & y_2(x) & … @ x = a:b}` multiple: plots several functions on a single graph;  
+- `$Plot{x1(t) | y_1(t) & x_2(t) | y_2(t) & … @ t = a:b}` multiple parametric;  
+- `$Map{f(x; y) @ x = a:b & y = c:d}` draws a 2D color map of a 3D surface, defined by **f**(*x*; *y*).
 
 The \$Plot function must be the first thing on a line.
 You can have only spaces and tabs before, not even comments.
@@ -64,72 +57,42 @@ You can also add 3D effects to the graph by selecting the "**Shadows**" checkbox
 You can also specify light direction by the respective combo.
 Besides UI controls, you can specify these options by using variables at worksheet level, as follows:
 
-> *PlotShadows *- draw surface plots with shadows;
->
-> *PlotLightDir* - direction to light source (0-7) clockwise:  
->   0 - North  
->   1 - NorthEast  
->   2 - East  
->   3 - SouthEast  
->   4 - South  
->   5 - SouthWest  
->   6 - West  
->   7 – NorthWest
->
-> *PlotPalette *- the number of color palette to be used for surface plots (0-9);
+- *PlotShadows* - draw surface plots with shadows;
+- *PlotLightDir* - direction to light source (0-7) clockwise:
+    - 0 - North
+    - 1 - NorthEast
+    - 2 - East
+    - 3 - SouthEast
+    - 4 - South
+    - 5 - SouthWest
+    - 6 - West
+    - 7 – NorthWest
+- *PlotPalette* - the number of color palette to be used for surface plots (0-9); <img src="../media/Image%202.png" width="300" alt="Table showing the palette colors" />
+- *PlotSmooth* - smooth transition of colors (= 1) or isobands (= 0) for surface plots.
+    Examples of different plotting methods are provided below:
 
-| 0 -  | **None** |
-|:-----|:---------|
-| 1 -  |          |
-| 2 -  |          |
-| 3 -  |          |
-| 4 -  |          |
-| 5 -  |          |
-| 6 -  |          |
-| 7 -  |          |
-| 8 -  |          |
-| 9 -  |          |
+    - **Parametric**  
+      Equation: **r**(*θ*) = **cos**(5/2\**θ*)  
+      `$Plot{r(θ)*cos(θ)|r(θ)*sin(θ) @ θ = 0:6*π}`  
+      Result: "rose" curve  
+      ![rose curve](../media/image21.png){ width="300" }
 
-*PlotSmooth* - smooth transition of colors (= 1) or isobands (= 0) for surface plots.  
-Examples of different plotting methods are provided below:
+    - **Multiple**  
+      Equation: **y**1(*θ*) = **cos**(*θ*) - **sin**(*θ*)  
+      **y**2(*θ*) = **cos**(*θ*) + **sin**(*θ*)  
+      `$Plot{cos(θ) & y1(θ) & y2(θ) @ θ = 0:π}`  
+      Result: leaf by three trigonometric functions  
+      ![leaf plot](../media/image22.png){ width="300" }
 
-<table>
-<colgroup>
-<col style="width: 49%" />
-<col style="width: 50%" />
-</colgroup>
-<tbody>
-<tr>
-<td style="text-align: left;"><strong>Parametric</strong><br />
-Equation: <strong>r</strong>(<em>θ</em>) = <strong>cos</strong>(5/2*<em>θ</em>)<br />
-$Plot{<strong>r</strong>(<em>θ</em>)*<strong>cos</strong>(<em>θ</em>)|<strong>r</strong>(<em>θ</em>)*<strong>sin</strong>(<em>θ</em>)<br />
-@ <em>θ</em> = 0:6*π}</td>
-<td style="text-align: left;"><strong>Multiple</strong><br />
-Equation: <strong>y</strong>1(<em>θ</em>) = <strong>cos</strong>(<em>θ</em>) - <strong>sin</strong>(<em>θ</em>)<br />
-<strong>y</strong>2(<em>θ</em>) = <strong>cos</strong>(<em>θ</em>) + <strong>sin</strong>(<em>θ</em>)<br />
-$Plot{<strong>cos</strong>(<em>θ</em>) &amp; <strong>y</strong>1(<em>θ</em>) &amp; <strong>y</strong>2(<em>θ</em>) @ <em>θ</em> = 0:<em>π</em>}</td>
-</tr>
-<tr>
-<td style="text-align: left;">Result: "rose" curve<br />
-<img src="../media/image21.png" style="width:2.91319in;height:2.83472in" /></td>
-<td style="text-align: left;">Result: leaf by three trigonometric functions<br />
-<img src="../media/image22.png" style="width:2.91319in;height:2.83472in" /></td>
-</tr>
-<tr>
-<td style="text-align: left;"><strong>Multiple parametric</strong><br />
-Equation: <strong>x</strong>(<em>θ</em>) = <strong>sqr</strong>(<em>θ</em>)*<strong>cos</strong>(<em>θ</em>)<br />
-<strong>y</strong>(<em>θ</em>) = <strong>sqr</strong>(<em>θ</em>)*<strong>sin</strong>(<em>θ</em>)<br />
-$Plot{<strong>x</strong>(<em>θ</em>)|<strong>y</strong>(<em>θ</em>) &amp; -<strong>x</strong>(<em>θ</em>)|-<strong>y</strong>(<em>θ</em>) @ <em>θ</em> = 0:3*<em>π</em>}</td>
-<td style="text-align: left;"><strong>Color map</strong><br />
-Equation:<br />
-<strong>f</strong>(<em>x</em>; <em>y</em>) = <strong>cos</strong>(<em>x</em>/3) + <strong>sin</strong>(<em>y</em>) -<strong>sin</strong>(<em>x</em>)*<strong>cos</strong>(<em>y</em>/4)<br />
-$Map{<strong>f</strong>(<em>x</em>; <em>y</em>) @ <em>x</em> = -15:15 &amp; <em>y</em> = -15:15}</td>
-</tr>
-<tr>
-<td style="text-align: left;">Result: double Fermat spiral<br />
-<img src="../media/image23.png" style="width:2.91736in;height:2.83472in" /></td>
-<td style="text-align: left;">Result: 2D waves<br />
-<img src="../media/image24.png" style="width:3.48403in;height:2.83472in" /></td>
-</tr>
-</tbody>
-</table>
+    - **Multiple parametric**  
+      Equation: **x**(*θ*) = **sqr**(*θ*)\***cos**(*θ*)  
+      **y**(*θ*) = **sqr**(*θ*)\***sin**(*θ*)  
+      `$Plot{x(θ)|y(θ) & -x(θ)|-y(θ) @ θ = 0:3*π}`  
+      Result: double Fermat spiral  
+      ![double Fermat spiral](../media/image23.png){ width="300" }
+
+    - **Color map**  
+      Equation: **f**(*x*; *y*) = **cos**(*x*/3) + **sin**(*y*) -**sin**(*x*)\***cos**(*y*/4)  
+      `$Map{f(x; y) @ x = -15:15 & y = -15:15}`  
+      Result: 2D waves  
+      ![2D waves](../media/image24.png){ width="300" }
