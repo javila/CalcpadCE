@@ -30,30 +30,30 @@ Since we normally assign elements in a loop, in this way we avoid resizing the v
 
 Vectors can be defined by using the following syntax:
 
-   $\vec{a}$ = \[ *a*1; *a*2; *a*3; ... ; *a*i; ... ; *a*n \]
+`a = [ a1; a2; a3; ... ; ai; ... ; an ]`
 
 The values of the separate elements can be specified by expressions that include variables, operators, functions, etc.
 For example:
 
-  *a* = \[**cos**(0); 2; 3; 2\*2; 6 - 1\]' = \[1 2 3 4 5\].
+`a = [cos(0); 2; 3; 2*2; 6 - 1]` $= [1\ 2\ 3\ 4\ 5]$
 
 You can also include other vectors in the list.
 Their elements will be included in the sequence at place, as follows:
 
-  *b* = \[0; *a*; 6; 7; 8\]' = \[0 1 2 3 4 5 6 7 8\].
+`b = [0; a; 6; 7; 8]` $= [0\ 1\ 2\ 3\ 4\ 5\ 6\ 7\ 8]$
 
 If you include matrices, they will be linearized to vectors by augmenting all rows one after the other.
 Vectors can be also defined as functions that will create them dynamically, depending on certain input parameters.
 For example:
 
-  *a*(*x*) = \[1; *x*; *x*^2; *x*^3; *x*^4\]  
-  *a*(2)' = \[1 2 4 8 16\]
+`a(x) = [1; x; x^2; x^3; x^4]`  
+`a(2)` $= [1\ 2\ 4\ 8\ 16]$
 
 Besides square brackets, you can also define vectors by using creational functions, as follows:
 
-  *a* = **vector**(5)' = \[0 0 0 0 0\] - creates an empty vector with 5 elements;  
-  **fill**(*a*; 5)' = \[5 5 5 5 5\] - fills the vector with a value of 5;  
-  *a* = **range**(0; 10; 2)' = \[0 2 4 6 8 10\] - creates a vector from a range of values starting from 0 to 10 with step 2.
+`a = vector(5)` $= [0\ 0\ 0\ 0\ 0]$ - creates an empty vector with 5 elements;  
+`fill(a; 5)` $= [5\ 5\ 5\ 5\ 5]$ - fills the vector with a value of 5;  
+`a = range(0; 10; 2)` $= [0\ 2\ 4\ 6\ 8\ 10]$ - creates a vector from a range of values starting from 0 to 10 with step 2.
 
 ## Indexing
 
@@ -64,27 +64,29 @@ The index can be a number, a single variable or expression.
 In the last case, the expression must be enclosed by brackets.
 For example:
 
-  *a* = \[2; 4; 6; 8; 10\]  
-  *a*.2' = 4  
-  *k* = 3', '*a*.*k*' = $\vec{a}_{3}$ = 6  
-  *a*.(2\**k* - 1)' = $\vec{a}_{5}$ = 10
+`a = [2; 4; 6; 8; 10]`  
+`a.2` $= 4$  
+`k = 3`, `a.k` $= \vec{a}_{3} = 6$  
+`a.(2*k - 1)` $= \vec{a}_{5} = 10$
 
 If an index value is less than 1 or greater than the vector length **len**($\vec{a}$), the program will return an error: Index out of range.
 You can use indexing to initialize vectors inside loops (block or inline). For that purpose, you must include the loop counter into the index.
 For example:
 
-  *a* = **vector**(6)','*b* = **vector**(6)  
-  'Block loop  
-  #for *k* = 1 : **len**(*a*)  
-    *a*.*k* = *k*^2  
-  #loop  
-  'Inline loop  
-  \$Repeat{*b*.*k* = *a*.(*k* - 1) @ *k* = 2 : **len**(*b*)}
+```matlab
+a = vector(6)','b = vector(6)
+'Block loop
+#for k = 1 : len(a)
+a.k = k^2
+#loop
+'Inline loop
+$Repeat{b.k = a.(k - 1) @ k = 2 : len(b)}
+```
 
 The above code will produce the following two vectors:
 
-> $\vec{a}$ = \[1 4 9 16 25 36\] and  
-> $\vec{b}$ = \[0 1 4 9 16 25\].
+$a = [1\ 4\ 9\ 16\ 25\ 36]$ and  
+$b = [0\ 1\ 4\ 9\ 16\ 25]$
 
 ## Structural functions
 
@@ -106,7 +108,7 @@ $\vec{a}$
     Represents the full length of the vector (in respect to element count).
 
 !!! example
-    **len**(\[1; 0; 2; 3\])' = 4
+    `len([1; 0; 2; 3])` $= 4$
 
 ### **size**($\vec{a}$)
 
@@ -122,11 +124,11 @@ $\vec{a}$
     If $\vec{a}$ is a large vector, returns the index of the last non-zero element, else returns the vector length.
 
 !!! example
-    *a* = **vector**(200)  
-    *a*.35 = 1  
-    **len**(*a*)' = 200  
-    **size**(*a*)' = 35  
-    **size**(\[1; 2; 3; 0; 0\])' = 5
+    `a = vector(200)`  
+    `a.35 = 1`  
+    `len(a)` $= 200$  
+    `size(a)` $= 35$  
+    `size([1; 2; 3; 0; 0])` $= 5$
 
 ### **resize**($\vec{a}$; *n*)
 
@@ -145,9 +147,9 @@ $\vec{a}$
     Sets a new length *n* of vector $\vec{a}$ by modifying the vector in place and returns a reference to the same vector as a result.
 
 !!! example
-    *a* = \[1; 2; 3; 4; 5\]  
-    *b* = **resize**(*a*; 3)' = \[1 2 3\]  
-    *a*' = \[1 2 3\]
+    `a = [1; 2; 3; 4; 5]`  
+    `b = resize(a; 3)` $= [1\ 2\ 3]$  
+    `a` $= [1\ 2\ 3]$
 
 ### **join**(*A*; $\vec{b}$; *c*…)
 
@@ -161,9 +163,9 @@ $\vec{a}$
     The list can include unlimited number of items of different types, mixed arbitrarily. Matrices are first linearized by rows and their elements are included into the common sequence, as well as the vectors, each at its place.
 
 !!! example
-    *A* = \[1; 2\|3; 4\]  
-    *b* = \[7; 8; 9\]  
-    *c* = **join**(0; *A*; 5; 6; *b*)' = \[0 1 2 3 4 5 6 7 8 9\]
+    `A = [1; 2|3; 4]`  
+    `b = [7; 8; 9]`  
+    `c = join(0; A; 5; 6; b)` $= [0\ 1\ 2\ 3\ 4\ 5\ 6\ 7\ 8\ 9]$
 
 ### **slice**($\vec{a}$; *i*1; *i*2)
 
@@ -185,8 +187,8 @@ $\vec{a}$
     It is not required that *i*1 ≤ *i*2. If an index is greater than the vector length, then all remaining elements are returned to the end.
 
 !!! example
-    **slice**(\[1; 2; 3; 4; 5; 6; 7; 8\]; 3; 7)' = \[3 4 5 6 7\]  
-    **slice**(\[1; 2; 3; 4; 5; 6; 7; 8\]; 6; 10)' = \[6 7 8\]
+    `slice([1; 2; 3; 4; 5; 6; 7; 8]; 3; 7)` $= [3\ 4\ 5\ 6\ 7]$  
+    `slice([1; 2; 3; 4; 5; 6; 7; 8]; 6; 10)` $= [6\ 7\ 8]$
 
 ### **first**($\vec{a}$; *n*)
 
@@ -205,8 +207,8 @@ $\vec{a}$
     If *n* is greater than the length of $\vec{a}$, then all elements are returned. Unlike **resize** the original vector is not modified.
 
 !!! example
-    **first**(\[0; 1; 2; 3; 4; 5\]; 3)' = \[0 1 2\]  
-    **first**(\[0; 1; 2; 3; 4; 5\]; 10)' = \[0 1 2 3 4 5\]
+    `first([0; 1; 2; 3; 4; 5]; 3)` $= [0\ 1\ 2]$  
+    `first([0; 1; 2; 3; 4; 5]; 10)` $= [0\ 1\ 2\ 3\ 4\ 5]$
 
 ### **last**($\vec{a}$; *n*)
 
@@ -225,8 +227,8 @@ $\vec{a}$
     If *n* is greater than the length of $\vec{a}$, then all elements are returned.
 
 !!! example
-    **last**(\[0; 1; 2; 3; 4; 5\]; 3)' = \[3 4 5\]  
-    **last**(\[0; 1; 2; 3; 4; 5\]; 10)' = \[0 1 2 3 4 5\]
+    `last([0; 1; 2; 3; 4; 5]; 3)` $= [3\ 4\ 5]$  
+    `last([0; 1; 2; 3; 4; 5]; 10)` $= [0\ 1\ 2\ 3\ 4\ 5]$
 
 ### **extract**($\vec{a}$; $\vec{i}$)
 
@@ -245,8 +247,8 @@ $\vec{i}$
     All indexes in $\vec{i}$ must be positive integers. If an index is greater than the length of vector $\vec{a}$, an "Index out of range" error is returned.
 
 !!! example
-    *a* = \[0; 1; 2; 3; 4; 5; 6\]  
-    **extract**(a; \[2; 4; 6\])' = \[1 3 5\]
+    `a = [0; 1; 2; 3; 4; 5; 6]`  
+    `extract(a; [2; 4; 6])` $= [1\ 3\ 5]$
 
 ## Data functions
 
@@ -269,9 +271,9 @@ $\vec{a}$
     The original content of $\vec{a}$ is not modified.
 
 !!! example
-    *a* = \[4; 0; 2; 3; -1; 1\]  
-    *b* = **sort**(*a*)' = \[-1 0 1 2 3 4\]  
-    *a*' = \[4 0 2 3 -1 1\]
+    `a = [4; 0; 2; 3; -1; 1]`  
+    `b = sort(a)` $= [-1\ 0\ 1\ 2\ 3\ 4]$  
+    `a` $= [4\ 0\ 2\ 3\ -1\ 1]$
 
 ### **rsort**($\vec{a}$)
 
@@ -287,7 +289,7 @@ $\vec{a}$
     Similar to **sort**, the original content of $\vec{a}$ remains unchanged.
 
 !!! example
-    **rsort**(\[4; 0; 2; 3; -1; 1\])' = \[4 3 2 1 0 -1\]
+    `rsort([4; 0; 2; 3; -1; 1])` $= [4\ 3\ 2\ 1\ 0\ -1]$
 
 ### **order**($\vec{a}$)
 
@@ -303,9 +305,9 @@ $\vec{a}$
     Each index in the output vector $\vec{i}$ shows which element in $\vec{a}$ should be placed at the current position to obtain a sorted sequence. You can do that by calling **extract**($\vec{a}$; $\vec{i}$).
 
 !!! example
-    *a* = \[4; 0; 2; 3; -1; 1\]  
-    *i* = **order**(*a*)' = \[5 2 6 3 4 1\]  
-    *b* = **extract**(*a*; *i*)' = \[-1 0 1 2 3 4\]
+    `a = [4; 0; 2; 3; -1; 1]`  
+    `i = order(a)` $= [5\ 2\ 6\ 3\ 4\ 1]$  
+    `b = extract(a; i)` $= [-1\ 0\ 1\ 2\ 3\ 4]$
 
 ### **revorder**($\vec{a}$)
 
@@ -321,7 +323,7 @@ $\vec{a}$
     The same considerations as for the **order** function apply.
 
 !!! example
-    **revorder**(\[4; 0; 2; 3; -1; 1\])' = \[1 4 3 6 2 5\]
+    `revorder([4; 0; 2; 3; -1; 1])` $= [1\ 4\ 3\ 6\ 2\ 5]$
 
 ### **reverse**($\vec{a}$)
 
@@ -337,7 +339,7 @@ $\vec{a}$
     The original content of $\vec{a}$ remains unchanged.
 
 !!! example
-    **reverse**(\[1; 2; 3; 4; 5\])' = \[5 4 3 2 1\]
+    `reverse([1; 2; 3; 4; 5])` $= [5\ 4\ 3\ 2\ 1]$
 
 ### **count**($\vec{a}$; *x*; *i*)
 
@@ -359,7 +361,7 @@ $\vec{a}$
     If *i* is greater than the length of $\vec{a}$, then zero is returned.
 
 !!! example
-    **count**(\[0; 1; 2; 1; 4; 1\]; 1; 4)' = 2
+    `count([0; 1; 2; 1; 4; 1]; 1; 4)` $= 2$
 
 ### **search**($\vec{a}$; *x*; *i*)
 
@@ -381,8 +383,8 @@ $\vec{a}$
     If *i* is greater than the length of $\vec{a}$ or the value is not found, zero is returned.
 
 !!! example
-    **search**(\[0; 1; 2; 1; 4; 1\]; 1; 3)' = 4  
-    **search**(\[0; 1; 2; 1; 4; 1\]; 1; 7)' = 0
+    `search([0; 1; 2; 1; 4; 1]; 1; 3)` $= 4$  
+    `search([0; 1; 2; 1; 4; 1]; 1; 7)` $= 0$
 
 ### **find**($\vec{a}$; *x*; *i*)
 
@@ -404,8 +406,8 @@ $\vec{a}$
     If *i* is greater than the length of $\vec{a}$ or the value is not found, an empty vector is returned (with zero length).
 
 !!! example
-    **find**(\[0; 1; 2; 1; 4; 1\]; 1; 2)' = \[2 4 6\]  
-    **find**(\[0; 1; 2; 1; 4; 1\]; 3; 2)' = \[\]
+    `find([0; 1; 2; 1; 4; 1]; 1; 2)` $= [2\ 4\ 6]$  
+    `find([0; 1; 2; 1; 4; 1]; 3; 2)` $= []$
 
 ### **lookup**($\vec{a}$; $\vec{b}$; *x*)
 
@@ -427,11 +429,10 @@ $\vec{b}$
     If the value is not found, an empty vector is returned (with zero length).
 
 !!! example
-    *a* = \[0; 1; 0; 0; 1; 1\]  
-    *b* = \[1; 2; 3; 4; 5; 6\]  
-    **lookup**(*a*; *b*; 0)' = \[1 3 4\]  
-    **lookup**(*a*; *b*; 2)' = \[\]
-
+    `a = [0; 1; 0; 0; 1; 1]`  
+    `b = [1; 2; 3; 4; 5; 6]`  
+    `lookup(a; b; 0)` $= [1\ 3\ 4]$  
+    `lookup(a; b; 2)` $= []$
 
 The **find** and **lookup** functions have variations with suffixes.
 Different suffixes refer to different comparison operators.
@@ -454,7 +455,7 @@ All standard scalar math functions accept vector arguments as well.
 The function is applied separately to each of the elements in the input vector and the results are returned in a corresponding output vector.
 For example:
 
-  **sin**(\[0; 30; 45; 90\])' = \[0 0.5 0.707 1\]
+`sin([0; 30; 45; 90])` $= [0\ 0.5\ 0.707\ 1]$
 
 Calcpad also includes several math functions that are specific for vectors:
 
@@ -472,7 +473,7 @@ $\vec{a}$
     The $L_p$ norm is obtained by the formula: $`\left\| \overrightarrow{a} \right\|_{p} = \left( \sum_{i = 1}^{n}\left| a_{i} \right|^{p} \right)^{\frac{1}{p}}`$.
 
 !!! example
-    **norm_p**(\[1; 2; 3\]; 3)' = 3.3019
+    `norm_p([1; 2; 3]; 3)` $= 3.3019$
 
 ### **norm_1**($\vec{a}$)
 
@@ -488,7 +489,7 @@ $\vec{a}$
     The $L_1$ norm is obtained by the formula: $`\left\| \overrightarrow{a} \right\|_{1} = \sum_{i = 1}^{n}{a_{i} \vee}`$.
 
 !!! example
-    **norm_1**(\[-1; 2; 3\])' = 6
+    `norm_1([-1; 2; 3])` $= 6$
 
 ### **norm**($\vec{a}$) / **norm_2**($\vec{a}$) / **norm_e**($\vec{a}$)
 
@@ -504,7 +505,7 @@ $\vec{a}$
     The $L_2$ norm is obtained by the formula: $`\left\| \overrightarrow{a} \right\|_{2} = \sqrt{\sum_{i = 1}^{n}a_{i}^{2}}`$.
 
 !!! example
-    **norm_2**(\[1; 2; 3\])' = 3.7417
+    `norm_2([1; 2; 3])` $= 3.7417$
 
 ### **norm_i**($\vec{a}$)
 
@@ -520,7 +521,7 @@ $\vec{a}$
     The $L_∞$ norm is obtained by the formula: $|| \vec{a} ||_∞$ = **max** $| a_i |$.
 
 !!! example
-    **norm_i**(\[1; 2; 3\]; 3)' = 3
+    `norm_i([1; 2; 3]; 3)` $= 3$
 
 ### **unit**($\vec{a}$)
 
@@ -536,7 +537,7 @@ $\vec{a}$
     The elements of the normalized vector $\vec{a}$ are evaluated by the expression: $ui = a_i / ||a||_2$
 
 !!! example
-    **unit**(\[1; 2; 3\])' = \[0.26726 0.53452 0.80178\]
+    `unit([1; 2; 3])` $= [0.26726\ 0.53452\ 0.80178]$
 
 ### **dot**($\vec{a}$; $\vec{b}$)
 
@@ -552,9 +553,9 @@ $\vec{a}$, $\vec{b}$
     The dot product is obtained by the expression: $\vec{a}$ · $\vec{b}$ = $`\sum_{i = 1}^{n}{a_{i}{\bullet b}_{i}}`$
 
 !!! example
-    *a* = \[1; 2; 4\]  
-    *b* = \[5; 3; 1\]  
-    **dot**(*a*; *b*)' = 15
+    `a = [1; 2; 4]`  
+    `b = [5; 3; 1]`  
+    `dot(a; b)` $= 15$
 
 ### **cross**($\vec{a}$; $\vec{b}$)
 
@@ -567,16 +568,15 @@ $\vec{a}$, $\vec{b}$
 :   vector representing the cross product $\vec{c}$ = $\vec{a}$ × $\vec{b}$.
 
 !!! note
-    This function is defined only for vectors with lengths 2 or 3. The elements of the resulting vector $\vec{c}$ are calculated as follows:  
-    $c_1 = a_2 b_3 − a_3 b_2$
-    $c_2 = a_3 b_1 − a_1 b_3$
-    $c_3 = a_1 b_2 − a_2 b_1$
+    This function is defined only for vectors with lengths 2 or 3. The elements of the resulting vector $\vec{c}$ are calculated as follows:
+    $c_1 = a_2 b_3 − a_3 b_2$,
+    $c_2 = a_3 b_1 − a_1 b_3$,
+    $c_3 = a_1 b_2 − a_2 b_1$.
 
 !!! example
-    *a* = \[1; 2; 4\]  
-    *b* = \[5; 3; 1\]  
-    **cross**(*a*; *b*)' = \[-10 19 -7\]
-
+    `a = [1; 2; 4]`  
+    `b = [5; 3; 1]`  
+    `cross(a; b)` $= [-10\ 19\ -7]$
 
 ## Aggregate and interpolation functions
 
@@ -585,22 +585,22 @@ Since they are multivariate, each of them can accept a single vector, but also a
 In this case, all arguments are merged into a single array of scalars, consecutively from left to right.
 For example:
 
-  *a* = \[0; 2; 6\]  
-  *b* = \[5; 3; 1\]  
-  **sum**(10; *a*; *b*; 11)' = 38
+`a = [0; 2; 6]`  
+`b = [5; 3; 1]`  
+`sum(10; a; b; 11)` $= 38$
 
 Interpolation functions behave similarly, but the first argument must be scalar, that represents the interpolation variable.
 For example:
 
-  **take**(3; *a*)' = 6  
-  **line**(1.5; *a*)' = 1  
-  **spline**(1.5; *a*)' = 0.8125
+`take(3; a)` $= 6$  
+`line(1.5; a)` $= 1$  
+`spline(1.5; a)` $= 0.8125$
 
 Like aggregate functions, interpolation functions also accept mixed lists of arguments, as follows:
 
-  *a* = \[1; 2; 3\]  
-  *b* = \[5; 6; 7; 8\]  
-  **take**(7; *a*; 4; *b*; 9; 10)' = 7
+`a = [1; 2; 3]`  
+`b = [5; 6; 7; 8]`  
+`take(7; a; 4; b; 9; 10)` $= 7$
 
 The returned value is actually the third element in vector $\vec{b}$, but it has an index 7 in the final sequence.
 A full list of the available aggregate and interpolation functions is provided earlier in this manual (see "Expressions/Functions" above).
@@ -612,10 +612,10 @@ Operations are performed element-by-element and the results are returned in an o
 This applies also for the multiplication operator.
 For example:
 
-  \[2; 4; 5\]\*\[2; 3; 4\]' = \[4 12 20\]
+`[2; 4; 5]*[2; 3; 4]` $= [4\ 12\ 20]$
 
 If the lengths of both vectors are different, the shorter vector is padded with zeros to the length of the longer one.
 Dot and cross products in Calcpad are implemented as functions (see above). All binary operators are supported for vector-scalar and scalar-vector operands in a similar way.
 For example:
 
-  \[2; 4; 5\]\*2' = \[4 8 10\]
+`[2; 4; 5]*2` $= [4\ 8\ 10]$
