@@ -27,12 +27,14 @@ hooks:
   - hooks/math_fix.py
 
 nav:
-  - Home: index.md
-  - Fields of Application: 02-fields-of-application.md
-  - Installation: 03-installation.md
-  - Licensing: 04-licensing-and-terms-of-use.md
-  - How It Works: 05-how-it-works.md
-  - Theoretical Background: 06-theoretical-background.md
+  - Home:
+    - index.md
+    - Fields of Application: 02-fields-of-application.md
+    - Installation: 03-installation.md
+    - Licensing: 04-licensing-and-terms-of-use.md
+    - How It Works: 05-how-it-works.md
+    - Theoretical Background: 06-theoretical-background.md
+    - Working with Files: 12-working-with-files.md
   - Writing Code: 07-writing-code.md
   - Expressions:
     - expressions/_index.md
@@ -51,7 +53,6 @@ nav:
   - Reporting: 09-reporting.md
   - Programming: 10-programming.md
   - Results: 11-results.md
-  - Working with Files: 12-working-with-files.md
 
 markdown_extensions:
   - tables
