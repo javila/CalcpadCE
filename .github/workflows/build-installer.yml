@@ -41,7 +41,7 @@ jobs:
           dotnet-version: '10.0.x'
 
       - name: Publish Calcpad WPF
-        run: dotnet publish Calcpad.Wpf/Calcpad.wpf.csproj -c Release -r win-x64 --self-contained false
+        run: dotnet publish Calcpad.Wpf/Calcpad.wpf.csproj -c Release -r win-x64 --self-contained false -p:Version=${{ steps.version.outputs.version }}
 
       - name: Install NSIS
         run: choco install nsis -y --no-progress
