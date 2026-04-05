@@ -39,20 +39,19 @@ nav:
     - Programming: programming.md
     - Results: results.md
     - Working with Files: working-with-files.md
-  - Expressions:
-    - expressions/index.md
-    - Constants: expressions/constants.md
-    - Variables: expressions/variables.md
-    - Operators: expressions/operators.md
-    - Brackets: expressions/brackets.md
-    - Functions: expressions/functions.md
-    - Plotting: expressions/plotting.md
-    - Numerical Methods: expressions/numerical-methods.md
-    - Iterative Procedures: expressions/iterative-procedures.md
-    - Units: expressions/units.md
-    - Vectors: expressions/vectors.md
-    - Matrices: expressions/matrices.md
-    - High Performance Vectors and Matrices: expressions/high-performance-vectors-and-matrices.md
+    - Expressions: expressions.md
+    - Constants: constants.md
+    - Variables: variables.md
+    - Operators: operators.md
+    - Brackets: brackets.md
+    - Functions: functions.md
+    - Plotting: plotting.md
+    - Numerical Methods: numerical-methods.md
+    - Iterative Procedures: iterative-procedures.md
+    - Units: units.md
+    - Vectors: vectors.md
+    - Matrices: matrices.md
+    - High Performance Vectors and Matrices: high-performance-vectors-and-matrices.md
 
 markdown_extensions:
   - tables

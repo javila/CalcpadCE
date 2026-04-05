@@ -9,7 +9,7 @@ Externally, all of them behave in a similar way, except for a few cases.
 Each matrix type is implemented as an array of vectors, as displayed on the figure below.
 Vectors normally represent matrix rows, except for diagonal and column matrices.
 
-<img src="../media/image30.png" style="width:6.71339in;height:4.4143in" alt="Картина, която съдържа текст, диаграма, линия, Паралелен Описанието е генерирано автоматично" />
+<img src="./media/image30.png" style="width:6.71339in;height:4.4143in" alt="Картина, която съдържа текст, диаграма, линия, Паралелен Описанието е генерирано автоматично" />
 
 Calcpad uses large vectors to contain the values.
 So, it does not store the extra zero elements for partially filled (banded) matrices.

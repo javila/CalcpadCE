@@ -15,7 +15,7 @@ It has the following format:
 
 For example, if you enter: `$Plot{x^2 - 5*x + 3 @ x = -1:6}`, you will get the following result:
 
-<img src="../media/image20.png" style="width:4.01795in;height:2.81417in" alt="Картина, която съдържа диаграма, заговорнича, линия Описанието е генерирано автоматично" />
+<img src="./media/image20.png" style="width:4.01795in;height:2.81417in" alt="Картина, която съдържа диаграма, заговорнича, линия Описанието е генерирано автоматично" />
 
 The above command plots only one function of one variable at a time.
 There are also other formats that you can use:
@@ -67,7 +67,7 @@ Besides UI controls, you can specify these options by using variables at workshe
     - 5 - SouthWest
     - 6 - West
     - 7 – NorthWest
-- *PlotPalette* - the number of color palette to be used for surface plots (0-9); <img src="../media/Image%202.png" width="300" alt="Table showing the palette colors" />
+- *PlotPalette* - the number of color palette to be used for surface plots (0-9); <img src="./media/Image%202.png" width="300" alt="Table showing the palette colors" />
 - *PlotSmooth* - smooth transition of colors (= 1) or isobands (= 0) for surface plots.
     Examples of different plotting methods are provided below:
 
@@ -75,24 +75,24 @@ Besides UI controls, you can specify these options by using variables at workshe
       Equation: **r**(*θ*) = **cos**(5/2\**θ*)  
       `$Plot{r(θ)*cos(θ)|r(θ)*sin(θ) @ θ = 0:6*π}`  
       Result: "rose" curve  
-      ![rose curve](../media/image21.png){ width="300" }
+      ![rose curve](./media/image21.png){ width="300" }
 
     - **Multiple**  
       Equation: **y**1(*θ*) = **cos**(*θ*) - **sin**(*θ*)  
       **y**2(*θ*) = **cos**(*θ*) + **sin**(*θ*)  
       `$Plot{cos(θ) & y1(θ) & y2(θ) @ θ = 0:π}`  
       Result: leaf by three trigonometric functions  
-      ![leaf plot](../media/image22.png){ width="300" }
+      ![leaf plot](./media/image22.png){ width="300" }
 
     - **Multiple parametric**  
       Equation: **x**(*θ*) = **sqr**(*θ*)\***cos**(*θ*)  
       **y**(*θ*) = **sqr**(*θ*)\***sin**(*θ*)  
       `$Plot{x(θ)|y(θ) & -x(θ)|-y(θ) @ θ = 0:3*π}`  
       Result: double Fermat spiral  
-      ![double Fermat spiral](../media/image23.png){ width="300" }
+      ![double Fermat spiral](./media/image23.png){ width="300" }
 
     - **Color map**  
       Equation: **f**(*x*; *y*) = **cos**(*x*/3) + **sin**(*y*) -**sin**(*x*)\***cos**(*y*/4)  
       `$Map{f(x; y) @ x = -15:15 & y = -15:15}`  
       Result: 2D waves  
-      ![2D waves](../media/image24.png){ width="300" }
+      ![2D waves](./media/image24.png){ width="300" }

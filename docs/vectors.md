@@ -12,7 +12,7 @@ Vectors with length that is greater than 100 are created as "large". Externally 
 But internally, they operate quite differently.
 The structure of a large vector is displayed on the figure below:
 
-<img src="../media/image29.png" style="width:5.36042in;height:1.08819in" alt="Картина, която съдържа текст, екранна снимка, линия, Шрифт Описанието е генерирано автоматично" />
+<img src="./media/image29.png" style="width:5.36042in;height:1.08819in" alt="Картина, която съдържа текст, екранна снимка, линия, Шрифт Описанието е генерирано автоматично" />
 
 A vector is defined with its full "mathematical" length, but no memory is initially reserved for it.
 This length can be obtained by the **len**($\vec{v}$) function.

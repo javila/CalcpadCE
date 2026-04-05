@@ -17,7 +17,7 @@ It is required that the function "**f**(*x*) - const" has opposite signs at the 
 According to Boltzano’s theorem, if the function is continuous within the interval, at least one root exists.
 The bracketing algorithm will find an approximation after a finite number of iterations.
 
-<img src="../media/image25.png" style="width:2.5893in;height:1.90964in" alt="Картина, която съдържа текст, линия, диаграма, заговорнича Описанието е генерирано автоматично" />
+<img src="./media/image25.png" style="width:2.5893in;height:1.90964in" alt="Картина, която съдържа текст, линия, диаграма, заговорнича Описанието е генерирано автоматично" />
 
 With this method, you can find only roots where the function crosses the line at "*y* = const". When " **f**(*x*) - const" is entirely positive or negative and only "touches" the line from one side, you cannot find the root by any bracketing method.
 

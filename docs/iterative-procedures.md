@@ -28,7 +28,7 @@ f(x) = a_0/2 + $Sum{a(k)*cos(k*x*π/l) @ k=1:n} + $Sum{b(k)*sin(k*x*π*l) @ k=1:
 
 As an example, we can take a straight line within the interval (0; 2\**l*), withs equation: f(*x*) = *x*/(2\**l*). The integration constants are *a*(*k*) = 0 and *b*(*k*) = -1/(*k*\*π). If we plot the Fourier approximation for *n* = 5, we will get the following result:
 
-<img src="../media/image26.png" style="width:4.33057in;height:2.80665in" alt="Fourier" />
+<img src="./media/image26.png" style="width:4.33057in;height:2.80665in" alt="Fourier" />
 
 ## Product
 
@@ -79,7 +79,7 @@ Then you can plot the result:
 $Map{abs(f(0; x + 1i*y)) @ x = -1.5:0.5 & y = -1:1}
 ```
 
-<img src="../media/image27.png" style="width:4.81217in;height:4.37051in" alt="Mandelbrot" />
+<img src="./media/image27.png" style="width:4.81217in;height:4.37051in" alt="Mandelbrot" />
 
 ## Expression blocks
 
@@ -121,7 +121,7 @@ $block{
 quadRoots(2; 3; -5)
 ```
 </td>
-<td><img src="../media/image28.png" width="400" /></td>
+<td><img src="./media/image28.png" width="400" /></td>
 </tr>
 </tbody>
 </table>

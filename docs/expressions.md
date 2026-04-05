@@ -15,7 +15,7 @@ By default, each expression has to be in a separate line, e.g.:
 
 You must not add "=" at the end of each expression.
 This is the assignment operator.
-It is used to assign values to variables, e.g. "*a* = 2". Press the <img src="../media/image6.png" alt="" height="20"> button, to see the results in the output window:
+It is used to assign values to variables, e.g. "*a* = 2". Press the <img src="./media/image6.png" alt="" height="20"> button, to see the results in the output window:
 
 `2 + 3` $= 5$
 
@@ -42,4 +42,4 @@ You can also add text, Html and images to create detailed and professional-looki
 You can save it to a file and use it multiple times to solve similar problems.
 Below, you can see a sample program for solving a quadratic equation:
 
-<img src="../media/image19.png" style="width:6.69375in;height:2.89236in" alt="Sample1" />
+<img src="./media/image19.png" style="width:6.69375in;height:2.89236in" alt="Sample1" />
