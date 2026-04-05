@@ -2099,7 +2099,7 @@ $\vec{b}$
     2.5 & 8.71 \\
     1.67 & 2.67 \\
     5 & 11.43
-    \end{bmatrix}`$ the solution vector  
+    \end{bmatrix}`$ the solution matrix  
     `A*X` $`= \begin{bmatrix}
     10 & 40 \\
     20 & 50 \\
@@ -2140,7 +2140,7 @@ $\vec{b}$
     2.5 & 8.71 \\
     1.67 & 2.67 \\
     5 & 11.43
-    \end{bmatrix}`$ the solution vector  
+    \end{bmatrix}`$ the solution matrix  
     `A*X` $`= \begin{bmatrix}
     10 & 40 \\
     20 & 50 \\
@@ -2179,7 +2179,7 @@ $\vec{b}$
     2.5 & 8.71 \\
     1.67 & 2.67 \\
     5 & 11.43
-    \end{bmatrix}`$ the solution vector  
+    \end{bmatrix}`$ the solution matrix  
     `A*X` $`= \begin{bmatrix}
     10 & 40 \\
     20 & 50 \\
