@@ -45,8 +45,13 @@ namespace Calcpad.Wpf
                 Path = AppDomain.CurrentDomain.BaseDirectory;
                 Name = AppDomain.CurrentDomain.FriendlyName + ".exe";
                 FullName = System.IO.Path.Combine(Path, Name);
-                Version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
-                Title = " Calcpad VM " + Version[0..(Version.LastIndexOf('.'))];
+                Version = Assembly.GetExecutingAssembly()
+                    .GetCustomAttribute<System.Reflection.AssemblyInformationalVersionAttribute>()?
+                    .InformationalVersion ?? Assembly.GetExecutingAssembly().GetName().Version.ToString();
+                // Strip source link hash appended by SDK (e.g. "+abc123def")
+                var plusIndex = Version.IndexOf('+');
+                if (plusIndex >= 0) Version = Version[..plusIndex];
+                Title = " Calcpad VM " + Version;
                 DocPath = Path + "doc";
                 if (!Directory.Exists(DocPath))
                     DocPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\Calcpad";
@@ -233,6 +238,7 @@ namespace Calcpad.Wpf
             _insertManager = new(RichTextBox);
             _autoCompleteManager = new(RichTextBox, AutoCompleteListBox, Dispatcher, _insertManager);
             _cfn = string.Empty;
+            Title = AppInfo.Title;
             _isTextChangedEnabled = false;
             IsSaved = true;
             _findReplace.RichTextBox = RichTextBox;
